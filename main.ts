@@ -1,6 +1,11 @@
-import fs from "node:fs";
-const TEXT = "I deleted the production database, but I kept a backup of my apology, which is also deleted.";
-const out = process.env.MAKEFUN_OUTPUT_DIR || "/output";
-if (TEXT.length < 1 || TEXT.length > 200) { console.error("entry out of range"); process.exit(1); }
-fs.mkdirSync(out, { recursive: true });
-fs.writeFileSync(out + "/entry.txt", TEXT, "utf8");
+// The Production Database Apology — writes the one-line apology to entry.txt.
+import { mkdirSync, writeFileSync } from "node:fs";
+const LINE = "I deleted the production database, but I kept a backup of my apology, which is also deleted.";
+const DEST = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+const LIMIT = 200;
+if (LINE.length === 0 || LINE.length > LIMIT) {
+  console.error("entry must be 1-200 characters");
+  process.exit(1);
+}
+mkdirSync(DEST, { recursive: true });
+writeFileSync(`${DEST}/entry.txt`, LINE, "utf8");
